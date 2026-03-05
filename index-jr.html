@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Onda Jr</title>
+  <style>
+    /* ── BASE ───────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy:  #03045e;
+      --blue:  #0096c7;
+      --cyan:  #00b4d8;
+      --sky:   #90e0ef;
+      --pale:  #caf0f8;
+      --white: #ffffff;
+      --bg:    #f0f9ff;
+      --yellow:#ffd60a;
+      --green: #06d6a0;
+      --pink:  #ff6b9d;
+      --orange:#ff9f1c;
+      --purple:#a855f7;
+      --red:   #f72585;
+      --r:     20px;
+      --rb:    32px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', 'Comic Sans MS', system-ui, sans-serif;
+      background: var(--bg);
+      color: #1e293b;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--pale); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 99px; }
+
+    /* ── NAVBAR ─────────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 32px;
+      background: var(--navy);
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-brand img {
+      height: 48px; border-radius: 10px;
+    }
+    .nav-brand span {
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--yellow);
+      letter-spacing: .02em;
+    }
+    .nav-brand .jr-tag {
+      background: var(--cyan); color: var(--navy);
+      font-size: .7rem; font-weight: 900;
+      padding: 2px 8px; border-radius: 99px;
+      text-transform: uppercase; letter-spacing: .1em;
+      margin-left: 2px;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 6px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--pale); font-weight: 700; font-size: 1rem;
+      padding: 9px 18px; border-radius: 99px;
+      transition: background .2s, color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--yellow); color: var(--navy);
+    }
+    .hamburger {
+      display: none; flex-direction: column; gap: 6px;
+      cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      width: 28px; height: 3px; background: var(--white);
+      border-radius: 3px;
+    }
+
+    /* ── SECTIONS ────────────────────────────────────────── */
+    section { padding: 100px 24px 64px; }
+    .inner { max-width: 1000px; margin: 0 auto; }
+
+    /* ── ① INÍCIO ────────────────────────────────────────── */
+    #inicio {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--navy) 0%, #004e92 60%, #00b4d8 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      position: relative; overflow: hidden;
+      padding-top: 80px;
+    }
+    .bubbles {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .bubble {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      animation: rise linear infinite;
+    }
+    @keyframes rise {
+      from { transform: translateY(105vh); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: .6; }
+      to   { transform: translateY(-10vh); opacity: 0; }
+    }
+    .wave-bottom {
+      position: absolute; bottom: -1px; left: 0; right: 0; pointer-events: none;
+    }
+
+    .hero-logo {
+      width: 180px; height: 180px; object-fit: contain;
+      border-radius: 28px;
+      background: rgba(255,255,255,.1);
+      border: 4px solid rgba(255,255,255,.25);
+      padding: 10px;
+      margin: 0 auto 28px;
+      animation: wobble 3s ease-in-out infinite;
+    }
+    @keyframes wobble {
+      0%,100% { transform: rotate(-2deg) scale(1); }
+      50%      { transform: rotate(2deg) scale(1.04); }
+    }
+    .hero-title {
+      font-size: clamp(2.6rem, 8vw, 5rem);
+      font-weight: 900; color: var(--white); line-height: 1.05;
+      margin-bottom: 10px;
+    }
+    .hero-title span { color: var(--yellow); }
+    .hero-jr-badge {
+      display: inline-block; background: var(--yellow); color: var(--navy);
+      font-size: 1rem; font-weight: 900;
+      padding: 6px 20px; border-radius: 99px;
+      margin-bottom: 20px; letter-spacing: .05em;
+    }
+    .hero-text {
+      color: var(--pale); font-size: 1.25rem;
+      line-height: 1.7; max-width: 580px;
+      margin: 0 auto 36px;
+    }
+    .hero-btns {
+      display: flex; flex-wrap: wrap; gap: 14px;
+      justify-content: center; position: relative; z-index: 2;
+    }
+    .big-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px; border-radius: 99px;
+      font-weight: 900; font-size: 1.1rem; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      border: none;
+    }
+    .big-btn:hover { transform: translateY(-3px) scale(1.04); }
+    .big-btn:active { transform: scale(.97); }
+    .btn-yellow { background: var(--yellow); color: var(--navy); box-shadow: 0 6px 24px rgba(255,214,10,.4); }
+    .btn-yellow:hover { box-shadow: 0 10px 30px rgba(255,214,10,.5); }
+    .btn-white  { background: rgba(255,255,255,.15); color: var(--white); border: 2px solid rgba(255,255,255,.4) !important; }
+    .btn-white:hover  { background: rgba(255,255,255,.28); }
+
+    /* info cards on hero */
+    .hero-cards {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      justify-content: center;
+      max-width: 900px; margin: 56px auto 0;
+      position: relative; z-index: 2;
+    }
+    .hero-card {
+      background: rgba(255,255,255,.1);
+      border: 2px solid rgba(255,255,255,.2);
+      border-radius: var(--rb); padding: 24px 22px;
+      flex: 1 1 220px; max-width: 280px;
+      color: var(--pale); text-align: center;
+      transition: transform .2s, background .2s;
+    }
+    .hero-card:hover { transform: translateY(-5px); background: rgba(255,255,255,.17); }
+    .hero-card .big-emoji { font-size: 2.6rem; margin-bottom: 10px; display: block; }
+    .hero-card h3 { color: var(--white); font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+    .hero-card p  { font-size: .95rem; line-height: 1.6; }
+
+    /* ── ② QUEM SOMOS ────────────────────────────────────── */
+    #quem { background: var(--white); }
+    .section-tag {
+      display: inline-block; padding: 5px 16px;
+      background: var(--pale); color: var(--blue);
+      font-size: .8rem; font-weight: 900; letter-spacing: .08em;
+      text-transform: uppercase; border-radius: 99px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 900; color: var(--navy); line-height: 1.15; margin-bottom: 14px;
+    }
+    .divider {
+      width: 64px; height: 6px;
+      background: linear-gradient(90deg, var(--cyan), var(--yellow));
+      border-radius: 99px; margin: 0 0 36px;
+    }
+    .section-sub {
+      color: #475569; font-size: 1.1rem; line-height: 1.7; max-width: 640px; margin-bottom: 44px;
+    }
+
+    .team-grid {
+      display: flex; flex-wrap: wrap; gap: 28px; justify-content: center;
+    }
+    .team-card {
+      flex: 0 0 clamp(240px, 28%, 290px);
+      border-radius: var(--rb); overflow: hidden;
+      box-shadow: 0 6px 28px rgba(0,100,180,.13);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .team-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,100,180,.22); }
+    .team-top {
+      padding: 36px 24px 28px; text-align: center;
+    }
+    .tc-pres  .team-top { background: linear-gradient(135deg, #03045e, #0096c7); }
+    .tc-vice  .team-top { background: linear-gradient(135deg, #1d0036, #7c3aed); }
+    .tc-sec   .team-top { background: linear-gradient(135deg, #4a0033, #db2777); }
+    .avatar {
+      width: 88px; height: 88px; border-radius: 50%;
+      margin: 0 auto 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; font-weight: 900; color: var(--navy);
+      border: 4px solid rgba(255,255,255,.3);
+    }
+    .tc-pres .avatar { background: var(--yellow); }
+    .tc-vice .avatar { background: #c4b5fd; }
+    .tc-sec  .avatar { background: #fbcfe8; }
+    .team-role-badge {
+      display: inline-block; padding: 4px 14px;
+      background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35);
+      color: var(--white); border-radius: 99px;
+      font-size: .78rem; font-weight: 800; letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .team-body { background: var(--bg); padding: 20px 22px 24px; }
+    .team-name { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 8px; }
+    .team-desc { color: #475569; font-size: .92rem; line-height: 1.6; }
+
+    /* ── ③ NOSSAS IDEIAS ─────────────────────────────────── */
+    #ideias { background: var(--bg); }
+    .ideas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .idea-card {
+      background: var(--white);
+      border-radius: var(--rb); padding: 26px 22px;
+      box-shadow: 0 4px 18px rgba(0,100,180,.08);
+      transition: transform .2s, box-shadow .2s;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .idea-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    }
+    .idea-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(0,100,180,.16); }
+    .idea-emoji { font-size: 3rem; margin-bottom: 14px; line-height: 1; }
+    .idea-card h3 { font-size: 1.05rem; font-weight: 900; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
+    .idea-card p  { font-size: .93rem; color: #475569; line-height: 1.65; }
+
+    /* color variants */
+    .ic-blue   { border: 2px solid #bfdbfe; } .ic-blue::before   { background: #3b82f6; }
+    .ic-green  { border: 2px solid #bbf7d0; } .ic-green::before  { background: var(--green); }
+    .ic-yellow { border: 2px solid #fde68a; } .ic-yellow::before { background: var(--yellow); }
+    .ic-pink   { border: 2px solid #fbcfe8; } .ic-pink::before   { background: var(--pink); }
+    .ic-orange { border: 2px solid #fed7aa; } .ic-orange::before { background: var(--orange); }
+    .ic-purple { border: 2px solid #e9d5ff; } .ic-purple::before { background: var(--purple); }
+    .ic-cyan   { border: 2px solid #a5f3fc; } .ic-cyan::before   { background: var(--cyan); }
+    .ic-red    { border: 2px solid #fecaca; } .ic-red::before    { background: var(--red); }
+
+    /* ── ④ FALE COM A GENTE ──────────────────────────────── */
+    #fale {
+      background: linear-gradient(160deg, var(--navy) 0%, #004e92 60%, #0096c7 100%);
+      min-height: 60vh; display: flex; align-items: center;
+    }
+    .fale-inner {
+      max-width: 700px; margin: 0 auto; text-align: center;
+    }
+    #fale .section-tag   { background: rgba(255,255,255,.15); color: var(--pale); }
+    #fale .section-title { color: var(--white); }
+    #fale .divider       { margin: 0 auto 36px; background: linear-gradient(90deg, var(--yellow), var(--cyan)); }
+    #fale .section-sub   { color: var(--pale); max-width: 100%; margin: 0 auto 44px; }
+    .fale-big-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--yellow); color: var(--navy);
+      padding: 20px 44px; border-radius: 99px;
+      font-weight: 900; font-size: 1.25rem;
+      box-shadow: 0 8px 32px rgba(255,214,10,.45);
+      transition: transform .2s, box-shadow .2s;
+      margin-bottom: 32px;
+    }
+    .fale-big-btn:hover { transform: translateY(-4px) scale(1.04); box-shadow: 0 14px 40px rgba(255,214,10,.55); }
+    .fale-big-btn .btn-emoji { font-size: 1.6rem; }
+
+    .fale-features {
+      display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 12px;
+    }
+    .fale-feat {
+      background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.2);
+      border-radius: var(--r); padding: 18px 22px;
+      flex: 1 1 180px; max-width: 220px;
+      color: var(--pale); text-align: center;
+    }
+    .fale-feat .ff-emoji { font-size: 1.9rem; margin-bottom: 8px; display: block; }
+    .fale-feat p { font-size: .9rem; line-height: 1.55; color: rgba(202,240,248,.85); }
+    .fale-feat strong { color: var(--white); display: block; margin-bottom: 4px; font-size: .95rem; }
+
+    /* ── FOOTER ────────────────────────────────────────────── */
+    footer {
+      background: #010214; color: rgba(202,240,248,.55);
+      text-align: center; padding: 28px 24px;
+      font-size: .9rem; line-height: 1.9;
+    }
+    footer strong { color: var(--yellow); }
+    .footer-wave { font-size: 1.6rem; display: block; margin-bottom: 8px; }
+
+    /* ── SCROLL REVEAL ─────────────────────────────────────── */
+    .pop {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .pop.show { opacity: 1; transform: none; }
+    .pop-d1 { transition-delay: .08s; }
+    .pop-d2 { transition-delay: .16s; }
+    .pop-d3 { transition-delay: .24s; }
+    .pop-d4 { transition-delay: .32s; }
+    .pop-d5 { transition-delay: .40s; }
+    .pop-d6 { transition-delay: .48s; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      #navbar { padding: 10px 18px; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: fixed; inset: 68px 0 0 0;
+        background: var(--navy);
+        align-items: center; justify-content: center; gap: 8px;
+      }
+      .nav-links.open a { font-size: 1.35rem; padding: 14px 44px; width: 80%; text-align: center; }
+      .hamburger { display: flex; }
+      .hero-title { font-size: 2.6rem; }
+      .hero-text  { font-size: 1.1rem; }
+      .ideas-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 460px) {
+      .ideas-grid { grid-template-columns: 1fr; }
+      .fale-big-btn { font-size: 1.05rem; padding: 16px 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════ NAVBAR ══════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-brand">
+    <img src="logo.png" alt="Logo Nova Onda" onerror="this.style.display='none'" />
+    <span>Nova Onda <span class="jr-tag">JR</span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#inicio" onclick="closeMenu()">🏠 Início</a></li>
+    <li><a href="#quem" onclick="closeMenu()">👋 Quem Somos</a></li>
+    <li><a href="#ideias" onclick="closeMenu()">💡 Nossas Ideias</a></li>
+    <li><a href="#fale" onclick="closeMenu()">💬 Fale com a Gente</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════ ① INÍCIO ════════════════════════ -->
+<section id="inicio">
+  <div class="bubbles" id="bubbles"></div>
+
+  <img
+    class="hero-logo pop"
+    src="logo.png"
+    alt="Nova Onda"
+    onerror="this.outerHTML='<div class=\'hero-logo\' style=\'width:180px;height:180px;border-radius:28px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:5rem;\'>🌊</div>'"
+  />
+
+  <div class="hero-jr-badge pop pop-d1">🌊 Versão Júnior · Para a Galerinha!</div>
+  <h1 class="hero-title pop pop-d2">Chapa<br/><span>Nova Onda!</span></h1>
+  <p class="hero-text pop pop-d3">
+    Nós queremos deixar a escola muito mais legal para todo mundo! 🎉<br/>
+    Vote na Nova Onda e venha fazer parte desta onda com a gente!
+  </p>
+  <div class="hero-btns pop pop-d4">
+    <a class="big-btn btn-yellow" href="#ideias">💡 Ver nossas ideias</a>
+    <a class="big-btn btn-white"  href="#fale">✉️ Mandar uma ideia</a>
+  </div>
+
+  <!-- 3 quick-info cards -->
+  <div class="hero-cards">
+    <div class="hero-card pop pop-d2">
+      <span class="big-emoji">🏛️</span>
+      <h3>O que é o STUCO?</h3>
+      <p>É o grêmio da escola! O grupo de alunos que conversa com os professores e diretores para tornar a escola melhor.</p>
+    </div>
+    <div class="hero-card pop pop-d3">
+      <span class="big-emoji">🌊</span>
+      <h3>Por que Nova Onda?</h3>
+      <p>Porque vamos trazer um monte de ideias novas e divertidas! Uma nova onda de mudanças para o nosso colégio!</p>
+    </div>
+    <div class="hero-card pop pop-d4">
+      <span class="big-emoji">🙋</span>
+      <h3>Como eu participo?</h3>
+      <p>Vote na Nova Onda e mande suas sugestões! Toda ideia de aluno é bem-vinda. A sua voz importa muito!</p>
+    </div>
+  </div>
+
+  <svg class="wave-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 90" preserveAspectRatio="none">
+    <path fill="#ffffff" d="M0,45 C400,90 1040,0 1440,45 L1440,90 L0,90 Z"/>
+  </svg>
+</section>
+
+
+<!-- ══════════════════════ ② QUEM SOMOS ════════════════════ -->
+<section id="quem">
+  <div class="inner">
+    <span class="section-tag pop">👋 Nossa Turma</span>
+    <h2 class="section-title pop">Conheça quem vai<br/>representar vocês!</h2>
+    <div class="divider pop"></div>
+    <p class="section-sub pop">
+      Somos três alunos super animados que querem fazer a escola ficar incrível. A gente vai ouvir todo mundo e lutar pelas ideias de vocês! 💪
+    </p>
+
+    <div class="team-grid">
+
+      <div class="team-card tc-pres pop pop-d1">
+        <div class="team-top">
+          <div class="avatar">JG</div>
+          <div class="team-role-badge">⭐ Presidente</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">João Gabriel Cintra</div>
+          <p class="team-desc">
+            O líder da turma! João Gabriel vai ser o presidente e vai garantir que todas as nossas ideias se tornem realidade na escola. Ele é determinado e adora ouvir o que os colegas têm a dizer! 🚀
+          </p>
+        </div>
+      </div>
+
+      <div class="team-card tc-vice pop pop-d2">
+        <div class="team-top">
+          <div class="avatar">LE</div>
+          <div class="team-role-badge">🤝 Vice-Presidente</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Leon Elarrat</div>
+          <p class="team-desc">
+            O parceiro de dupla! Leon vai ajudar o João Gabriel em tudo e vai ter sempre certeza de que nenhuma ideia fica para trás. Juntos eles formam uma dupla imbatível! 💪
+          </p>
+        </div>
+      </div>
+
+      <div class="team-card tc-sec pop pop-d3">
+        <div class="team-top">
+          <div class="avatar">CP</div>
+          <div class="team-role-badge">📋 Secretária</div>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Cecília Prado</div>
+          <p class="team-desc">
+            A organizadora da turma! Cecília anota tudo, guarda as ideias de todo mundo e deixa tudo bem arrumado para que nada se perca. Ela é super caprichosa! ✍️
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ ③ NOSSAS IDEIAS ═════════════════ -->
+<section id="ideias">
+  <div class="inner">
+    <span class="section-tag pop">💡 Nosso Plano</span>
+    <h2 class="section-title pop">Nossas Ideias Incríveis!</h2>
+    <div class="divider pop"></div>
+    <p class="section-sub pop">
+      Olha tudo o que a gente quer fazer na escola se a gente ganhar a eleição! São muitas ideias maneiras que vão deixar os dias na escola muito mais divertidos! 🎊
+    </p>
+
+    <div class="ideas-grid">
+
+      <div class="idea-card ic-yellow pop pop-d1">
+        <div class="idea-emoji">🤝</div>
+        <h3>Escola sem bulliying!</h3>
+        <p>Ninguém merece ser zoado ou excluído. Vamos fazer campanhas na escola para que todo mundo seja respeitado e tratado com carinho — não importa quem você é! 💜</p>
+      </div>
+
+      <div class="idea-card ic-pink pop pop-d2">
+        <div class="idea-emoji">💇</div>
+        <h3>Dia do Cabelo Maluco!</h3>
+        <p>Um dia especial para cada um vir com o cabelo do jeito que quiser — quanto mais criativo melhor! 🎨</p>
+      </div>
+
+      <div class="idea-card ic-orange pop pop-d3">
+        <div class="idea-emoji">🎂</div>
+        <h3>Parabéns pra Você!</h3>
+        <p>Todo aniversariante do mês vai ser celebrado! Seu nome aparece para a escola inteira. Porque todo aniversário merece festa! 🎉</p>
+      </div>
+
+      <div class="idea-card ic-green pop pop-d4">
+        <div class="idea-emoji">⚽</div>
+        <h3>Esporte Livre na Quadra!</h3>
+        <p>Poder jogar qualquer esporte que você quiser na quadra — basquete, vôlei, o que der vontade!</p>
+      </div>
+
+      <div class="idea-card ic-blue pop pop-d5">
+        <div class="idea-emoji">🏆</div>
+        <h3>Torneio entre Turmas!</h3>
+        <p>Campeonatos de esporte entre todas as turmas. Você vai poder competir com seus amigos e se divertir muito!</p>
+      </div>
+
+      <div class="idea-card ic-purple pop pop-d6">
+        <div class="idea-emoji">🎾</div>
+        <h3>Time de Tênis!</h3>
+        <p>Criar um time de tênis na escola para quem adora esse esporte. Todo mundo vai poder participar!</p>
+      </div>
+
+      <div class="idea-card ic-red pop pop-d1">
+        <div class="idea-emoji">🍲</div>
+        <h3>Comida Muito Melhor!</h3>
+        <p>Melhorar a comida do refeitório pra ficar gostosa, com mais variedade. E a sobremesa também! 😋</p>
+      </div>
+
+      <div class="idea-card ic-cyan pop pop-d2">
+        <div class="idea-emoji">💧</div>
+        <h3>Bebedouros na Quadra!</h3>
+        <p>Colocar mais bebedouros pertinho da quadra pra você poder beber água sem precisar correr longe depois do jogo.</p>
+      </div>
+
+      <div class="idea-card ic-green pop pop-d3">
+        <div class="idea-emoji">🌱</div>
+        <h3>Lixo Vira Adubo!</h3>
+        <p>A comida que sobrar vai virar adubo para as plantas. Você aprende sobre natureza e ajuda o planeta! 🌍</p>
+      </div>
+
+      <div class="idea-card ic-yellow pop pop-d4">
+        <div class="idea-emoji">👕</div>
+        <h3>Dia da Camisa do Time!</h3>
+        <p>Um dia especial para vir pra escola com a camisa do seu time de futebol favorito. Vai ser demais!</p>
+      </div>
+
+      <div class="idea-card ic-pink pop pop-d5">
+        <div class="idea-emoji">❤️</div>
+        <h3>Ajudar Quem Precisa!</h3>
+        <p>Organizar campanhas para arrecadar coisas e ajudar pessoas que precisam. Fazer o bem é sempre legal!</p>
+      </div>
+
+      <div class="idea-card ic-orange pop pop-d6">
+        <div class="idea-emoji">📬</div>
+        <h3>Caixa de Sugestões!</h3>
+        <p>Uma caixinha onde você pode colocar qualquer ideia que tiver, mesmo sem assinar o seu nome. Toda ideia é bem-vinda!</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ ④ FALE COM A GENTE ══════════════ -->
+<section id="fale">
+  <div class="fale-inner inner pop">
+    <span class="section-tag">✉️ Fale com a Gente</span>
+    <h2 class="section-title pop">Tem uma ideia legal?<br/>Conta pra gente! 🙌</h2>
+    <div class="divider pop"></div>
+    <p class="section-sub pop">
+      A Nova Onda quer ouvir você! Manda sua sugestão pelo formulário — pode ser anônimo, ninguém vai saber que foi você se você não quiser. Cada ideia pode virar realidade! ⭐
+    </p>
+
+    <a class="fale-big-btn pop pop-d1" href="https://bit.ly/3N12vnk" target="_blank" rel="noopener">
+      <span class="btn-emoji">📝</span> Mandar minha ideia!
+    </a>
+
+    <div class="fale-features pop pop-d2">
+
+      <div class="fale-feat">
+        <span class="ff-emoji">🔒</span>
+        <strong>Pode ser anônimo!</strong>
+        <p>Ninguém precisa saber que foi você. Sua ideia é segura com a gente.</p>
+      </div>
+
+      <div class="fale-feat">
+        <span class="ff-emoji">👀</span>
+        <strong>A gente vai ler!</strong>
+        <p>Todo mundo da equipe lê cada sugestão que chega. Nenhuma é ignorada!</p>
+      </div>
+
+      <div class="fale-feat">
+        <span class="ff-emoji">⭐</span>
+        <strong>Ideia boa vira projeto!</strong>
+        <p>A melhor sugestão pode virar uma ideia real do STUCO. Pode ser a sua!</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ FOOTER ══════════════════════════ -->
+<footer>
+  <span class="footer-wave">🌊🌊🌊</span>
+  <p>
+    <strong>Chapa Nova Onda</strong> · Candidatura ao STUCO 2026<br/>
+    João Gabriel Cintra · Leon Elarrat · Cecília Prado<br/>
+    <span style="color:rgba(202,240,248,.35);font-size:.82rem;">
+      "Uma onda pra transformar nossa escola. Todo mundo junto!" 🌊
+    </span>
+  </p>
+</footer>
+
+
+<script>
+  /* ── BUBBLES ─────────────────────────────── */
+  (function () {
+    const c = document.getElementById('bubbles');
+    for (let i = 0; i < 22; i++) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      const s = Math.random() * 90 + 15;
+      b.style.cssText = `
+        width:${s}px; height:${s}px;
+        left:${Math.random() * 100}%;
+        animation-duration:${Math.random() * 16 + 10}s;
+        animation-delay:${Math.random() * 10}s;
+      `;
+      c.appendChild(b);
+    }
+  })();
+
+  /* ── NAVBAR ACTIVE ───────────────────────── */
+  const nav     = document.getElementById('navbar');
+  const secs    = document.querySelectorAll('section[id]');
+  const navAs   = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 130) cur = s.id; });
+    navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+  });
+
+  /* ── MOBILE MENU ──────────────────────────── */
+  function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+  function closeMenu()  { document.getElementById('navLinks').classList.remove('open'); }
+
+  /* ── SCROLL REVEAL ───────────────────────── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.pop').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
